@@ -1,0 +1,409 @@
+.port-details-panel {
+  background: #ffffff;
+  border-left: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.port-details-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid #e5e7eb;
+  background: #f9fafb;
+}
+
+.port-details-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.port-details-title h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.port-details-port-number {
+  padding: 4px 12px;
+  background: #3b82f6;
+  color: white;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas,
+    "Courier New", monospace;
+}
+
+.port-details-close {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #6b7280;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: all 0.15s ease;
+  line-height: 1;
+}
+
+.port-details-close:hover {
+  background: #e5e7eb;
+  color: #111827;
+}
+
+.port-details-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.port-details-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.port-details-section-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.port-details-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.port-details-info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.port-details-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.port-details-value {
+  font-size: 15px;
+  font-weight: 500;
+  color: #111827;
+}
+
+.port-details-mono {
+  font-family: "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas,
+    "Courier New", monospace;
+}
+
+.port-details-value.protocol-tcp {
+  color: #1e40af;
+  font-weight: 600;
+}
+
+.port-details-value.protocol-udp {
+  color: #92400e;
+  font-weight: 600;
+}
+
+.port-details-framework {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 8px;
+  color: white;
+}
+
+.port-details-framework-icon {
+  font-size: 20px;
+}
+
+.port-details-framework-name {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.port-details-command-wrapper {
+  position: relative;
+}
+
+.port-details-command {
+  width: 100%;
+  padding: 12px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  font-family: "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas,
+    "Courier New", monospace;
+  font-size: 13px;
+  color: #374151;
+  resize: vertical;
+  min-height: 80px;
+  line-height: 1.5;
+}
+
+.port-details-command:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.port-details-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 8px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.port-details-action-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: #f3f4f6;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.port-details-action-button:hover {
+  background: #e5e7eb;
+  border-color: #9ca3af;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.port-details-action-button:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.port-details-action-icon {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.port-details-action-primary {
+  background: #3b82f6;
+  border-color: #2563eb;
+  color: white;
+}
+
+.port-details-action-primary:hover {
+  background: #2563eb;
+  border-color: #1d4ed8;
+}
+
+.port-details-action-danger {
+  background: #ef4444;
+  border-color: #dc2626;
+  color: white;
+}
+
+.port-details-action-danger:hover {
+  background: #dc2626;
+  border-color: #b91c1c;
+}
+
+.port-details-action-danger-confirm {
+  background: #dc2626;
+  border-color: #b91c1c;
+  color: white;
+  animation: pulse 0.5s ease-in-out;
+}
+
+.port-details-action-danger-confirm:hover {
+  background: #b91c1c;
+  border-color: #991b1b;
+}
+
+.port-details-action-secondary {
+  background: #6b7280;
+  border-color: #4b5563;
+  color: white;
+}
+
+.port-details-action-secondary:hover {
+  background: #4b5563;
+  border-color: #374151;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.port-details-kill-confirm {
+  display: flex;
+  gap: 8px;
+}
+
+.port-details-copy-actions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .port-details-panel {
+    background: #1f2937;
+    border-left-color: #374151;
+  }
+
+  .port-details-header {
+    background: #111827;
+    border-bottom-color: #374151;
+  }
+
+  .port-details-title h2 {
+    color: #f9fafb;
+  }
+
+  .port-details-close {
+    color: #9ca3af;
+  }
+
+  .port-details-close:hover {
+    background: #374151;
+    color: #f9fafb;
+  }
+
+  .port-details-section-title {
+    color: #9ca3af;
+  }
+
+  .port-details-label {
+    color: #6b7280;
+  }
+
+  .port-details-value {
+    color: #f9fafb;
+  }
+
+  .port-details-value.protocol-tcp {
+    color: #93c5fd;
+  }
+
+  .port-details-value.protocol-udp {
+    color: #fde68a;
+  }
+
+  .port-details-command {
+    background: #111827;
+    border-color: #374151;
+    color: #e5e7eb;
+  }
+
+  .port-details-command:focus {
+    border-color: #3b82f6;
+  }
+
+  .port-details-actions {
+    border-top-color: #374151;
+  }
+
+  .port-details-action-button {
+    background: #374151;
+    border-color: #4b5563;
+    color: #f9fafb;
+  }
+
+  .port-details-action-button:hover {
+    background: #4b5563;
+    border-color: #6b7280;
+  }
+
+  .port-details-action-primary {
+    background: #1e40af;
+    border-color: #1e3a8a;
+  }
+
+  .port-details-action-primary:hover {
+    background: #1e3a8a;
+  }
+
+  .port-details-action-danger {
+    background: #991b1b;
+    border-color: #7f1d1d;
+  }
+
+  .port-details-action-danger:hover {
+    background: #7f1d1d;
+  }
+
+  .port-details-action-danger-confirm {
+    background: #dc2626;
+    border-color: #b91c1c;
+  }
+
+  .port-details-action-danger-confirm:hover {
+    background: #b91c1c;
+  }
+
+  .port-details-action-secondary {
+    background: #4b5563;
+    border-color: #374151;
+  }
+
+  .port-details-action-secondary:hover {
+    background: #374151;
+  }
+}
+
+/* Scrollbar styling */
+.port-details-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.port-details-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.port-details-content::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 4px;
+}
+
+.port-details-content::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+@media (prefers-color-scheme: dark) {
+  .port-details-content::-webkit-scrollbar-thumb {
+    background: #4b5563;
+  }
+
+  .port-details-content::-webkit-scrollbar-thumb:hover {
+    background: #6b7280;
+  }
+}

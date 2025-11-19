@@ -1,0 +1,459 @@
+.port-item {
+  padding: 12px 16px;
+  margin: 4px 8px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.port-item:hover {
+  background: #f9fafb;
+  border-color: #d1d5db;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.port-item:hover .port-item-actions {
+  opacity: 1;
+}
+
+.port-item-selected {
+  background: #eff6ff;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+.port-item-selected:hover {
+  background: #dbeafe;
+}
+
+.port-item-main {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+
+.port-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.port-number-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.port-number {
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+  font-family: "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas,
+    "Courier New", monospace;
+}
+
+.protocol-badge,
+.state-badge {
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.protocol-badge {
+  background: #f3f4f6;
+  color: #6b7280;
+}
+
+.protocol-tcp {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.protocol-udp {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.state-badge {
+  background: #f3f4f6;
+  color: #6b7280;
+}
+
+.state-listen {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.state-established {
+  background: #e0e7ff;
+  color: #3730a3;
+}
+
+.state-other {
+  background: #f3f4f6;
+  color: #6b7280;
+}
+
+.framework-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 6px;
+  color: white;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.framework-icon {
+  font-size: 14px;
+}
+
+.framework-name {
+  white-space: nowrap;
+}
+
+.port-item-details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.process-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.process-name {
+  font-weight: 500;
+  color: #374151;
+  font-family: "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas,
+    "Courier New", monospace;
+}
+
+.process-separator {
+  color: #d1d5db;
+}
+
+.process-pid {
+  color: #9ca3af;
+  font-size: 12px;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .port-item {
+    background: #1f2937;
+    border-color: #374151;
+  }
+
+  .port-item:hover {
+    background: #111827;
+    border-color: #4b5563;
+  }
+
+  .port-item-selected {
+    background: #1e3a5f;
+    border-color: #3b82f6;
+  }
+
+  .port-item-selected:hover {
+    background: #1e40af;
+  }
+
+  .port-number {
+    color: #f9fafb;
+  }
+
+  .protocol-badge {
+    background: #374151;
+    color: #d1d5db;
+  }
+
+  .protocol-tcp {
+    background: #1e3a8a;
+    color: #93c5fd;
+  }
+
+  .protocol-udp {
+    background: #78350f;
+    color: #fde68a;
+  }
+
+  .state-badge {
+    background: #374151;
+    color: #d1d5db;
+  }
+
+  .state-listen {
+    background: #064e3b;
+    color: #6ee7b7;
+  }
+
+  .state-established {
+    background: #312e81;
+    color: #c7d2fe;
+  }
+
+  .process-name {
+    color: #e5e7eb;
+  }
+
+  .process-info {
+    color: #9ca3af;
+  }
+
+  .process-separator {
+    color: #4b5563;
+  }
+
+  .process-pid {
+    color: #6b7280;
+  }
+
+  .action-button {
+    background: #374151;
+    border-color: #4b5563;
+    color: #f9fafb;
+  }
+
+  .action-button:hover {
+    background: #4b5563;
+    border-color: #6b7280;
+  }
+
+  .action-button-primary {
+    background: #1e40af;
+    border-color: #1e3a8a;
+  }
+
+  .action-button-primary:hover {
+    background: #1e3a8a;
+  }
+
+  .action-button-danger {
+    background: #991b1b;
+    border-color: #7f1d1d;
+  }
+
+  .action-button-danger:hover {
+    background: #7f1d1d;
+  }
+
+  .action-button-danger-confirm {
+    background: #dc2626;
+    border-color: #b91c1c;
+  }
+
+  .action-button-danger-confirm:hover {
+    background: #b91c1c;
+  }
+
+  .copy-menu {
+    background: #1f2937;
+    border-color: #374151;
+  }
+
+  .copy-menu-item {
+    color: #f9fafb;
+  }
+
+  .copy-menu-item:hover {
+    background: #374151;
+  }
+}
+
+/* Action buttons */
+.port-item-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.port-item-selected .port-item-actions {
+  opacity: 1;
+}
+
+.action-button {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  background: #f3f4f6;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.action-button:hover {
+  background: #e5e7eb;
+  border-color: #9ca3af;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.action-button:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.action-icon {
+  font-size: 14px;
+  line-height: 1;
+}
+
+.action-label {
+  font-size: 12px;
+}
+
+.action-button-primary {
+  background: #3b82f6;
+  border-color: #2563eb;
+  color: white;
+}
+
+.action-button-primary:hover {
+  background: #2563eb;
+  border-color: #1d4ed8;
+}
+
+.action-button-danger {
+  background: #ef4444;
+  border-color: #dc2626;
+  color: white;
+}
+
+.action-button-danger:hover {
+  background: #dc2626;
+  border-color: #b91c1c;
+}
+
+.action-button-danger-busy {
+  opacity: 0.7;
+  cursor: not-allowed;
+  position: relative;
+}
+
+.action-button-danger-busy::after {
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  top: 50%;
+  left: 50%;
+  margin-top: -6px;
+  margin-left: -6px;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.action-button-danger-busy .action-icon,
+.action-button-danger-busy .action-label {
+  opacity: 0;
+}
+
+.action-button-danger-confirm {
+  background: #dc2626;
+  border-color: #b91c1c;
+  color: white;
+  animation: pulse 0.5s ease-in-out;
+}
+
+.action-button-danger-confirm:hover {
+  background: #b91c1c;
+  border-color: #991b1b;
+}
+
+.action-button-secondary {
+  background: #6b7280;
+  border-color: #4b5563;
+  color: white;
+}
+
+.action-button-secondary:hover {
+  background: #4b5563;
+  border-color: #374151;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Kill confirmation */
+.kill-confirm {
+  display: flex;
+  gap: 4px;
+}
+
+/* Copy dropdown */
+.copy-dropdown {
+  position: relative;
+}
+
+.copy-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  background: white;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+  min-width: 160px;
+  overflow: hidden;
+}
+
+.copy-menu-item {
+  display: block;
+  width: 100%;
+  padding: 8px 12px;
+  background: none;
+  border: none;
+  text-align: left;
+  font-size: 13px;
+  color: #374151;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.copy-menu-item:hover {
+  background: #f3f4f6;
+}
