@@ -9,6 +9,7 @@ interface CookiesContextValue {
   selectedCookie: CookieEntry | null;
   searchTerm: string;
   selectedDomain: string;
+  selectedUrl: string;
   isLoading: boolean;
   error: string | null;
 
@@ -16,6 +17,7 @@ interface CookiesContextValue {
   selectCookie: (cookie: CookieEntry | null) => void;
   setSearchTerm: (term: string) => void;
   setSelectedDomain: (domain: string) => void;
+  setSelectedUrl: (url: string) => void;
   deleteCookie: (name: string, domain: string, path: string) => Promise<void>;
   clearAllCookies: () => Promise<number>;
   exportCookies: () => Promise<void>;
@@ -46,6 +48,7 @@ export const CookiesProvider: React.FC<CookiesProviderProps> = ({
   );
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedDomain, setSelectedDomain] = useState("");
+  const [selectedUrl, setSelectedUrl] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -75,6 +78,10 @@ export const CookiesProvider: React.FC<CookiesProviderProps> = ({
 
   const handleSetSelectedDomain = useCallback((domain: string) => {
     setSelectedDomain(domain);
+  }, []);
+
+  const handleSetSelectedUrl = useCallback((url: string) => {
+    setSelectedUrl(url);
   }, []);
 
   const deleteCookie = useCallback(
@@ -117,7 +124,7 @@ export const CookiesProvider: React.FC<CookiesProviderProps> = ({
 
   const exportCookies = useCallback(async () => {
     try {
-      const cookiesToExport = filterCookies(cookies, searchTerm, selectedDomain);
+      const cookiesToExport = filterCookies(cookies, searchTerm, selectedDomain, selectedUrl);
       const json = JSON.stringify(cookiesToExport, null, 2);
       await navigator.clipboard.writeText(json);
     } catch (err) {
@@ -126,11 +133,11 @@ export const CookiesProvider: React.FC<CookiesProviderProps> = ({
       setError(message);
       throw err;
     }
-  }, [cookies, searchTerm, selectedDomain]);
+  }, [cookies, searchTerm, selectedDomain, selectedUrl]);
 
   const filteredCookies = React.useMemo(() => {
-    return filterCookies(cookies, searchTerm, selectedDomain);
-  }, [cookies, searchTerm, selectedDomain]);
+    return filterCookies(cookies, searchTerm, selectedDomain, selectedUrl);
+  }, [cookies, searchTerm, selectedDomain, selectedUrl]);
 
   const value: CookiesContextValue = {
     cookies,
@@ -138,12 +145,14 @@ export const CookiesProvider: React.FC<CookiesProviderProps> = ({
     selectedCookie,
     searchTerm,
     selectedDomain,
+    selectedUrl,
     isLoading,
     error,
     refreshCookies,
     selectCookie,
     setSearchTerm: handleSetSearchTerm,
     setSelectedDomain: handleSetSelectedDomain,
+    setSelectedUrl: handleSetSelectedUrl,
     deleteCookie,
     clearAllCookies,
     exportCookies,

@@ -12,6 +12,7 @@ export interface CookieEntry {
 export interface CookieFilter {
   searchTerm: string;
   domain: string;
+  url: string;
 }
 
 export interface CookieStats {

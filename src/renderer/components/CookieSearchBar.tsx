@@ -4,8 +4,9 @@ import { getUniqueDomains } from "../utils/cookieUtils";
 import "./CookieSearchBar.css";
 
 export const CookieSearchBar: React.FC = () => {
-  const { cookies, searchTerm, selectedDomain, setSearchTerm, setSelectedDomain } = useCookies();
+  const { cookies, searchTerm, selectedDomain, selectedUrl, setSearchTerm, setSelectedDomain, setSelectedUrl } = useCookies();
   const [localSearchTerm, setLocalSearchTerm] = useState(searchTerm);
+  const [localUrl, setLocalUrl] = useState(selectedUrl);
 
   const domains = React.useMemo(() => getUniqueDomains(cookies), [cookies]);
 
@@ -18,13 +19,24 @@ export const CookieSearchBar: React.FC = () => {
     return () => clearTimeout(timer);
   }, [localSearchTerm, setSearchTerm]);
 
+  // Debounce URL
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setSelectedUrl(localUrl);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [localUrl, setSelectedUrl]);
+
   const handleClearFilters = () => {
     setLocalSearchTerm("");
     setSearchTerm("");
     setSelectedDomain("");
+    setLocalUrl("");
+    setSelectedUrl("");
   };
 
-  const hasFilters = searchTerm || selectedDomain;
+  const hasFilters = searchTerm || selectedDomain || selectedUrl;
 
   return (
     <div className="cookie-search-bar">
@@ -34,6 +46,15 @@ export const CookieSearchBar: React.FC = () => {
         placeholder="Search cookies (name, value, domain)..."
         value={localSearchTerm}
         onChange={(e) => setLocalSearchTerm(e.target.value)}
+      />
+
+      <input
+        type="url"
+        className="url-input"
+        placeholder="Filter by URL (e.g., https://example.com/path)..."
+        value={localUrl}
+        onChange={(e) => setLocalUrl(e.target.value)}
+        title="Show only cookies that would be sent to this URL"
       />
       
       <select

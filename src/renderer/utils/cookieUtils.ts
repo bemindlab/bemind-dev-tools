@@ -103,12 +103,56 @@ export function filterCookiesByDomain(
 }
 
 /**
+ * Filter cookies by URL (checks if cookie would be sent to this URL)
+ */
+export function filterCookiesByUrl(
+  cookies: CookieEntry[],
+  url: string
+): CookieEntry[] {
+  if (!url) return cookies;
+  
+  try {
+    const urlObj = new URL(url);
+    const hostname = urlObj.hostname;
+    const pathname = urlObj.pathname;
+    const isSecure = urlObj.protocol === 'https:';
+    
+    return cookies.filter((cookie) => {
+      // Check domain match
+      const cookieDomain = cookie.domain.startsWith('.') 
+        ? cookie.domain.substring(1) 
+        : cookie.domain;
+      
+      const domainMatch = hostname === cookieDomain || 
+                         hostname.endsWith('.' + cookieDomain) ||
+                         cookieDomain.endsWith('.' + hostname);
+      
+      if (!domainMatch) return false;
+      
+      // Check path match
+      const pathMatch = pathname.startsWith(cookie.path);
+      if (!pathMatch) return false;
+      
+      // Check secure flag
+      if (cookie.secure && !isSecure) return false;
+      
+      return true;
+    });
+  } catch (err) {
+    // Invalid URL, return all cookies
+    console.warn('Invalid URL for filtering:', url);
+    return cookies;
+  }
+}
+
+/**
  * Apply multiple filters to cookies
  */
 export function filterCookies(
   cookies: CookieEntry[],
   searchTerm: string,
-  domain: string
+  domain: string,
+  url?: string
 ): CookieEntry[] {
   let filtered = cookies;
   
@@ -118,6 +162,10 @@ export function filterCookies(
   
   if (domain) {
     filtered = filterCookiesByDomain(filtered, domain);
+  }
+  
+  if (url) {
+    filtered = filterCookiesByUrl(filtered, url);
   }
   
   return filtered;
