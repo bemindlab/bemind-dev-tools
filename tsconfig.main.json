@@ -4,7 +4,8 @@
     "module": "CommonJS",
     "outDir": "./dist",
     "noEmit": false,
-    "types": ["node"]
+    "types": ["node"],
+    "typeRoots": ["./node_modules/@types", "./src/types"]
   },
-  "include": ["src/main/**/*", "src/preload/**/*"]
+  "include": ["src/main/**/*", "src/preload/**/*", "src/types/**/*"]
 }

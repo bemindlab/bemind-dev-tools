@@ -97,6 +97,16 @@ export const PortsList: React.FC<PortsListProps> = ({
   // Calculate list height (max 600px or window height - 200px)
   const listHeight = Math.min(600, window.innerHeight - 200);
 
+  // Generate unique key for each port item
+  const itemKey = useMemo(
+    () => (index: number) => {
+      const port = ports[index];
+      if (!port) return `port-${index}`;
+      return `${port.port}-${port.protocol}-${port.processId}`;
+    },
+    [ports]
+  );
+
   return (
     <div className="ports-list-container">
       <List

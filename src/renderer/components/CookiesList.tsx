@@ -5,7 +5,9 @@ import { CookieEntry } from "../types/cookies";
 import "./CookiesList.css";
 
 export const CookiesList: React.FC = () => {
-  const { filteredCookies, selectedCookie, selectCookie, deleteCookie } = useCookies();
+  const { filteredCookies, selectedCookie, selectedSource, selectCookie, deleteCookie } = useCookies();
+
+  const isReadOnly = selectedSource !== "electron";
 
   const handleRowClick = (cookie: CookieEntry) => {
     selectCookie(cookie);
@@ -13,6 +15,12 @@ export const CookiesList: React.FC = () => {
 
   const handleDelete = async (e: React.MouseEvent, cookie: CookieEntry) => {
     e.stopPropagation();
+    
+    if (isReadOnly) {
+      alert("Cannot delete cookies from external browsers (read-only)");
+      return;
+    }
+    
     if (confirm(`Delete cookie "${cookie.name}"?`)) {
       try {
         await deleteCookie(cookie.name, cookie.domain, cookie.path);
@@ -69,7 +77,8 @@ export const CookiesList: React.FC = () => {
                   <button
                     className="delete-btn"
                     onClick={(e) => handleDelete(e, cookie)}
-                    title="Delete cookie"
+                    disabled={isReadOnly}
+                    title={isReadOnly ? "Cannot delete browser cookies (read-only)" : "Delete cookie"}
                   >
                     🗑️
                   </button>

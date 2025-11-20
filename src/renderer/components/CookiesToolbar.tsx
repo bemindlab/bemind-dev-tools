@@ -1,14 +1,45 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useCookies } from "../contexts/CookiesContext";
 import { calculateTotalSize, formatCookieSize, isTotalSizeWarning } from "../utils/cookieUtils";
 import "./CookiesToolbar.css";
 
+const getBrowserIcon = (browser: string): string => {
+  switch (browser.toLowerCase()) {
+    case "chrome":
+      return "🌐";
+    case "firefox":
+      return "🦊";
+    case "edge":
+      return "🔷";
+    case "brave":
+      return "🦁";
+    default:
+      return "🌐";
+  }
+};
+
 export const CookiesToolbar: React.FC = () => {
-  const { filteredCookies, refreshCookies, clearAllCookies, exportCookies, isLoading } = useCookies();
+  const { 
+    filteredCookies, 
+    browserProfiles, 
+    selectedSource, 
+    refreshCookies, 
+    clearAllCookies, 
+    exportCookies, 
+    setSelectedSource,
+    loadBrowserProfiles,
+    isLoading 
+  } = useCookies();
   const [showConfirm, setShowConfirm] = useState(false);
 
   const totalSize = calculateTotalSize(filteredCookies);
   const hasSizeWarning = isTotalSizeWarning(totalSize);
+  const isReadOnly = selectedSource !== "electron";
+
+  // Load browser profiles on mount
+  useEffect(() => {
+    loadBrowserProfiles();
+  }, [loadBrowserProfiles]);
 
   const handleRefresh = async () => {
     try {
@@ -18,7 +49,20 @@ export const CookiesToolbar: React.FC = () => {
     }
   };
 
+  const handleSourceChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newSource = e.target.value;
+    try {
+      await setSelectedSource(newSource);
+    } catch (err) {
+      console.error("Failed to change source:", err);
+    }
+  };
+
   const handleClearAll = () => {
+    if (isReadOnly) {
+      alert("Cannot delete cookies from external browsers (read-only)");
+      return;
+    }
     setShowConfirm(true);
   };
 
@@ -50,17 +94,48 @@ export const CookiesToolbar: React.FC = () => {
 
   return (
     <div className="cookies-toolbar">
-      <div className="toolbar-stats">
-        <div className="stat-item">
-          <span className="stat-label">Total:</span>
-          <span className="stat-value">{filteredCookies.length}</span>
+      <div className="toolbar-left">
+        <div className="source-selector">
+          <label htmlFor="cookie-source" className="source-label">
+            Source:
+          </label>
+          <select
+            id="cookie-source"
+            className="source-dropdown"
+            value={selectedSource}
+            onChange={handleSourceChange}
+            disabled={isLoading}
+          >
+            <option value="electron">⚡ Electron (Built-in)</option>
+            {browserProfiles.map((profile) => {
+              const profileId = `${profile.browser}-${profile.profileName}`;
+              const icon = getBrowserIcon(profile.browser);
+              return (
+                <option key={profileId} value={profileId}>
+                  {icon} {profile.browser} - {profile.profileName}
+                </option>
+              );
+            })}
+          </select>
+          {isReadOnly && (
+            <span className="read-only-badge" title="Browser cookies are read-only">
+              👁️ Read-Only
+            </span>
+          )}
         </div>
-        <div className={`stat-item ${hasSizeWarning ? "warning" : ""}`}>
-          <span className="stat-label">Size:</span>
-          <span className="stat-value">
-            {formatCookieSize(totalSize)}
-            {hasSizeWarning && <span className="warning-icon" title="Total size exceeds 10KB">⚠️</span>}
-          </span>
+
+        <div className="toolbar-stats">
+          <div className="stat-item">
+            <span className="stat-label">Total:</span>
+            <span className="stat-value">{filteredCookies.length}</span>
+          </div>
+          <div className={`stat-item ${hasSizeWarning ? "warning" : ""}`}>
+            <span className="stat-label">Size:</span>
+            <span className="stat-value">
+              {formatCookieSize(totalSize)}
+              {hasSizeWarning && <span className="warning-icon" title="Total size exceeds 10KB">⚠️</span>}
+            </span>
+          </div>
         </div>
       </div>
 
@@ -86,8 +161,8 @@ export const CookiesToolbar: React.FC = () => {
         <button
           className="toolbar-btn clear-btn"
           onClick={handleClearAll}
-          disabled={filteredCookies.length === 0}
-          title="Clear all cookies"
+          disabled={filteredCookies.length === 0 || isReadOnly}
+          title={isReadOnly ? "Cannot delete browser cookies (read-only)" : "Clear all cookies"}
         >
           🗑️ Clear All
         </button>

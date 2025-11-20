@@ -30,10 +30,15 @@ export const MemoryCacheMonitorTool: React.FC<ToolComponentProps> = ({
 
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const hasInitializedRef = useRef(false);
+  const onStateChangeRef = useRef(onStateChange);
+  const lastEmittedState = useRef<string | null>(null);
+
+  // Keep onStateChange ref updated
+  useEffect(() => {
+    onStateChangeRef.current = onStateChange;
+  }, [onStateChange]);
 
   const fetchData = useCallback(async () => {
-    if (isPaused) return;
-
     try {
       const [metricsData, processesData] = await Promise.all([
         memoryApi.getMetrics(),
@@ -49,8 +54,9 @@ export const MemoryCacheMonitorTool: React.FC<ToolComponentProps> = ({
       setError(`Failed to fetch memory data: ${errorMessage}`);
       setIsLoading(false);
     }
-  }, [isPaused]);
+  }, []);
 
+  // Initial data fetch
   useEffect(() => {
     if (!hasInitializedRef.current) {
       hasInitializedRef.current = true;
@@ -58,6 +64,7 @@ export const MemoryCacheMonitorTool: React.FC<ToolComponentProps> = ({
     }
   }, [fetchData]);
 
+  // Handle refresh interval and pause state
   useEffect(() => {
     if (!isActive || isPaused) {
       if (intervalRef.current) {
@@ -78,14 +85,24 @@ export const MemoryCacheMonitorTool: React.FC<ToolComponentProps> = ({
     };
   }, [isActive, isPaused, refreshInterval, fetchData]);
 
+  // Notify parent of state changes
   useEffect(() => {
-    if (onStateChange) {
-      onStateChange({
-        refreshInterval,
-        isPaused,
-      });
+    const callback = onStateChangeRef.current;
+    if (!callback) return;
+
+    const toolState = {
+      refreshInterval,
+      isPaused,
+    };
+    const serialized = JSON.stringify(toolState);
+
+    if (serialized === lastEmittedState.current) {
+      return;
     }
-  }, [refreshInterval, isPaused, onStateChange]);
+
+    lastEmittedState.current = serialized;
+    callback(toolState);
+  }, [refreshInterval, isPaused]);
 
   const handleIntervalChange = (newInterval: number) => {
     setRefreshInterval(newInterval);

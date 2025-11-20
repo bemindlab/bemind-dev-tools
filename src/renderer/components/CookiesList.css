@@ -106,7 +106,12 @@
   transition: opacity 0.2s, transform 0.2s;
 }
 
-.delete-btn:hover {
+.delete-btn:hover:not(:disabled) {
   opacity: 1;
   transform: scale(1.1);
+}
+
+.delete-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
 }

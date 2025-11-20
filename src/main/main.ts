@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain } from "electron";
+import { app, BrowserWindow, ipcMain, screen } from "electron";
 import * as path from "path";
 import { PortScannerService } from "./services/PortScannerService";
 import { ProcessMonitor } from "./services/ProcessMonitor";
@@ -28,11 +28,18 @@ let processMonitor: ProcessMonitor;
 let frameworkDetector: FrameworkDetector;
 let portActions: PortActionsService;
 let memoryMonitor: MemoryMonitorService;
+let cookieMonitor: CookieMonitorService;
 
 function createWindow(): void {
+  // Get primary display dimensions
+  const primaryDisplay = screen.getPrimaryDisplay();
+  const { width, height } = primaryDisplay.workAreaSize;
+
   mainWindow = new BrowserWindow({
-    width: 1200,
-    height: 800,
+    width: width,
+    height: height,
+    x: 0,
+    y: 0,
     title: "Bemind Dev Tools",
     webPreferences: {
       // Security: Enable context isolation
@@ -65,6 +72,7 @@ function initializeServices(): void {
   frameworkDetector = new FrameworkDetector();
   portActions = new PortActionsService(portScanner);
   memoryMonitor = new MemoryMonitorService();
+  cookieMonitor = new CookieMonitorService();
 
   // Set up ProcessMonitor event listeners to forward to renderer
   processMonitor.on("port-added", (portInfo: PortInfo) => {

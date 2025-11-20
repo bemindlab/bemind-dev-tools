@@ -10,6 +10,8 @@ interface CookiesContextValue {
   searchTerm: string;
   selectedDomain: string;
   selectedUrl: string;
+  browserProfiles: any[];
+  selectedSource: string;
   isLoading: boolean;
   error: string | null;
 
@@ -18,6 +20,8 @@ interface CookiesContextValue {
   setSearchTerm: (term: string) => void;
   setSelectedDomain: (domain: string) => void;
   setSelectedUrl: (url: string) => void;
+  setSelectedSource: (source: string) => Promise<void>;
+  loadBrowserProfiles: () => Promise<void>;
   deleteCookie: (name: string, domain: string, path: string) => Promise<void>;
   clearAllCookies: () => Promise<number>;
   exportCookies: () => Promise<void>;
@@ -49,6 +53,8 @@ export const CookiesProvider: React.FC<CookiesProviderProps> = ({
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedDomain, setSelectedDomain] = useState("");
   const [selectedUrl, setSelectedUrl] = useState("");
+  const [browserProfiles, setBrowserProfiles] = useState<any[]>([]);
+  const [selectedSource, setSelectedSourceState] = useState("electron");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -83,6 +89,34 @@ export const CookiesProvider: React.FC<CookiesProviderProps> = ({
   const handleSetSelectedUrl = useCallback((url: string) => {
     setSelectedUrl(url);
   }, []);
+
+  const loadBrowserProfiles = useCallback(async () => {
+    try {
+      const profiles = await cookiesApi.getBrowserProfiles();
+      setBrowserProfiles(profiles);
+    } catch (err) {
+      console.error("Error loading browser profiles:", err);
+    }
+  }, []);
+
+  const handleSetSelectedSource = useCallback(
+    async (source: string) => {
+      try {
+        setIsLoading(true);
+        await cookiesApi.setSource(source);
+        setSelectedSourceState(source);
+        await refreshCookies();
+      } catch (err) {
+        const message =
+          err instanceof Error ? err.message : "Failed to change cookie source";
+        setError(message);
+        throw err;
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [refreshCookies]
+  );
 
   const deleteCookie = useCallback(
     async (name: string, domain: string, path: string) => {
@@ -146,6 +180,8 @@ export const CookiesProvider: React.FC<CookiesProviderProps> = ({
     searchTerm,
     selectedDomain,
     selectedUrl,
+    browserProfiles,
+    selectedSource,
     isLoading,
     error,
     refreshCookies,
@@ -153,6 +189,8 @@ export const CookiesProvider: React.FC<CookiesProviderProps> = ({
     setSearchTerm: handleSetSearchTerm,
     setSelectedDomain: handleSetSelectedDomain,
     setSelectedUrl: handleSetSelectedUrl,
+    setSelectedSource: handleSetSelectedSource,
+    loadBrowserProfiles,
     deleteCookie,
     clearAllCookies,
     exportCookies,
