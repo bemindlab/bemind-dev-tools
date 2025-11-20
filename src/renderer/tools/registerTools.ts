@@ -4,6 +4,7 @@ import type { ToolComponentProps } from "../types/dashboard";
 import { PortsProvider, usePortsManager } from "../contexts";
 import { PortsToolbar, PortsList, PortDetailsPanel } from "../components";
 import { CookiesMonitorTool } from "./CookiesMonitorTool";
+import { MemoryCacheMonitorTool } from "./MemoryCacheMonitorTool";
 
 // Internal Ports Manager View component
 const PortsManagerView: React.FC<{
@@ -204,6 +205,9 @@ export function registerAllTools(): void {
   if (toolRegistry.getTool("cookies-monitor")) {
     toolRegistry.unregisterTool("cookies-monitor");
   }
+  if (toolRegistry.getTool("memory-cache-monitor")) {
+    toolRegistry.unregisterTool("memory-cache-monitor");
+  }
 
   // Register Ports Manager
   toolRegistry.registerTool({
@@ -238,6 +242,24 @@ export function registerAllTools(): void {
       "Delete individual or all cookies",
       "Export cookies to JSON",
       "Security flag indicators",
+    ],
+    version: "1.0.0",
+  });
+
+  // Register Memory Cache Monitor
+  toolRegistry.registerTool({
+    id: "memory-cache-monitor",
+    name: "Memory Cache Monitor",
+    description: "Monitor system memory usage and top processes",
+    icon: "🧠",
+    category: ["monitoring", "performance", "development"],
+    component: MemoryCacheMonitorTool,
+    features: [
+      "Real-time memory metrics",
+      "Visual memory gauge",
+      "Top memory-consuming processes",
+      "Configurable refresh interval",
+      "Pause/resume monitoring",
     ],
     version: "1.0.0",
   });

@@ -37,6 +37,22 @@ const mockCookies: CookieEntry[] = [
 let mockCookieStore = [...mockCookies];
 
 export const cookiesApi = {
+  getBrowserProfiles: async () => {
+    if (!window.cookiesAPI) {
+      console.warn("Cookies API not available");
+      return [];
+    }
+    return await window.cookiesAPI.getBrowserProfiles();
+  },
+
+  setSource: async (source: string) => {
+    if (!window.cookiesAPI) {
+      console.warn("Cookies API not available");
+      return;
+    }
+    return await window.cookiesAPI.setSource(source);
+  },
+
   getAll: async (): Promise<CookieEntry[]> => {
     if (!window.cookiesAPI) {
       // Development mode - return mock data

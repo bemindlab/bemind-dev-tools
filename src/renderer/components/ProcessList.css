@@ -1,0 +1,82 @@
+.process-list {
+  padding: 1.5rem;
+  background: var(--background-secondary, #f5f5f5);
+  border-radius: 8px;
+}
+
+.process-list h3 {
+  margin: 0 0 1rem 0;
+  font-size: 1.2rem;
+  color: var(--text-primary, #333);
+}
+
+.process-list.loading,
+.process-list.empty {
+  text-align: center;
+  padding: 2rem;
+}
+
+.loading-message,
+.empty-message {
+  color: var(--text-secondary, #666);
+  font-size: 0.95rem;
+}
+
+.process-table {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.process-header {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1.5fr;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  background: var(--background-primary, #fff);
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--text-secondary, #666);
+  border-bottom: 2px solid var(--border-color, #ddd);
+}
+
+.process-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.process-item {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1.5fr;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  background: var(--background-primary, #fff);
+  border-radius: 4px;
+  border: 1px solid var(--border-color, #ddd);
+  transition: background-color 0.2s ease;
+}
+
+.process-item:hover {
+  background: var(--background-hover, #f9f9f9);
+}
+
+.process-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text-primary, #333);
+}
+
+.process-pid {
+  color: var(--text-secondary, #666);
+  font-family: monospace;
+  text-align: center;
+}
+
+.process-memory {
+  font-weight: 600;
+  color: var(--text-primary, #333);
+  text-align: right;
+}

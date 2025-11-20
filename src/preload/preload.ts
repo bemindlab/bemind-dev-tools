@@ -1,5 +1,40 @@
 import { contextBridge, ipcRenderer } from "electron";
 
+// Memory API types
+export interface MemoryMetrics {
+  total: number;
+  used: number;
+  available: number;
+  percentage: number;
+  timestamp: number;
+}
+
+export interface ProcessMemoryInfo {
+  pid: number;
+  name: string;
+  memory: number;
+}
+
+export interface MemoryAPI {
+  getMetrics: () => Promise<MemoryMetrics>;
+  getTopProcesses: (limit?: number) => Promise<ProcessMemoryInfo[]>;
+}
+
+export interface BrowserProfile {
+  browser: string;
+  profileName: string;
+  profilePath: string;
+  cookiesPath: string;
+}
+
+export interface CookiesAPI {
+  getBrowserProfiles: () => Promise<BrowserProfile[]>;
+  setSource: (source: string) => Promise<void>;
+  getAll: () => Promise<any[]>;
+  delete: (name: string, domain: string, path: string) => Promise<void>;
+  clearAll: () => Promise<{ count: number }>;
+}
+
 // Define the API interface for type safety
 export interface PortsAPI {
   // Port scanning
@@ -66,3 +101,19 @@ contextBridge.exposeInMainWorld("portsAPI", {
     return () => ipcRenderer.removeListener("ports:updated", listener);
   },
 } as PortsAPI);
+
+// Expose memory API
+contextBridge.exposeInMainWorld("memoryAPI", {
+  getMetrics: () => ipcRenderer.invoke("memory:get-metrics"),
+  getTopProcesses: (limit?: number) => ipcRenderer.invoke("memory:get-top-processes", limit),
+} as MemoryAPI);
+
+// Expose cookies API
+contextBridge.exposeInMainWorld("cookiesAPI", {
+  getBrowserProfiles: () => ipcRenderer.invoke("cookies:getBrowserProfiles"),
+  setSource: (source: string) => ipcRenderer.invoke("cookies:setSource", source),
+  getAll: () => ipcRenderer.invoke("cookies:getAll"),
+  delete: (name: string, domain: string, path: string) =>
+    ipcRenderer.invoke("cookies:delete", name, domain, path),
+  clearAll: () => ipcRenderer.invoke("cookies:clearAll"),
+} as CookiesAPI);

@@ -62,8 +62,13 @@ function portsReducer(state: PortsState, action: PortsAction): PortsState {
       return { ...state, ports: action.payload, error: null };
 
     case "ADD_PORT": {
-      // Check if port already exists
-      const exists = state.ports.some((p) => p.port === action.payload.port);
+      // Check if port already exists using unique key (port + protocol + PID)
+      const exists = state.ports.some(
+        (p) =>
+          p.port === action.payload.port &&
+          p.protocol === action.payload.protocol &&
+          p.processId === action.payload.processId
+      );
       if (exists) {
         return state;
       }
@@ -73,7 +78,14 @@ function portsReducer(state: PortsState, action: PortsAction): PortsState {
     case "REMOVE_PORT":
       return {
         ...state,
-        ports: state.ports.filter((p) => p.port !== action.payload.port),
+        ports: state.ports.filter(
+          (p) =>
+            !(
+              p.port === action.payload.port &&
+              p.protocol === action.payload.protocol &&
+              p.processId === action.payload.processId
+            )
+        ),
         selectedPort:
           state.selectedPort === action.payload.port
             ? null
@@ -82,7 +94,10 @@ function portsReducer(state: PortsState, action: PortsAction): PortsState {
 
     case "UPDATE_PORT": {
       const index = state.ports.findIndex(
-        (p) => p.port === action.payload.port
+        (p) =>
+          p.port === action.payload.port &&
+          p.protocol === action.payload.protocol &&
+          p.processId === action.payload.processId
       );
       if (index === -1) {
         return state;

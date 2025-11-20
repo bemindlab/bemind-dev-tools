@@ -5,6 +5,8 @@ import { ProcessMonitor } from "./services/ProcessMonitor";
 import { FrameworkDetector } from "./services/FrameworkDetector";
 import { PortActionsService } from "./services/PortActionsService";
 import { PortInfo } from "./services/platform/types";
+import { MemoryMonitorService } from "./services/MemoryMonitorService";
+import { CookieMonitorService } from "./services/CookieMonitorService";
 
 // Enable hot reload in development
 if (process.env.NODE_ENV === "development") {
@@ -25,6 +27,7 @@ let portScanner: PortScannerService;
 let processMonitor: ProcessMonitor;
 let frameworkDetector: FrameworkDetector;
 let portActions: PortActionsService;
+let memoryMonitor: MemoryMonitorService;
 
 function createWindow(): void {
   mainWindow = new BrowserWindow({
@@ -61,6 +64,7 @@ function initializeServices(): void {
   processMonitor = new ProcessMonitor(portScanner);
   frameworkDetector = new FrameworkDetector();
   portActions = new PortActionsService(portScanner);
+  memoryMonitor = new MemoryMonitorService();
 
   // Set up ProcessMonitor event listeners to forward to renderer
   processMonitor.on("port-added", (portInfo: PortInfo) => {
@@ -251,6 +255,78 @@ function setupIPCHandlers(): void {
       }
     } catch (error) {
       console.error("Error stopping monitoring:", error);
+      throw error;
+    }
+  });
+
+  // Memory metrics handler
+  ipcMain.handle("memory:get-metrics", async () => {
+    try {
+      const metrics = await memoryMonitor.getMemoryMetrics();
+      return metrics;
+    } catch (error) {
+      console.error("Error getting memory metrics:", error);
+      throw error;
+    }
+  });
+
+  // Top processes handler
+  ipcMain.handle("memory:get-top-processes", async (_event, limit?: number) => {
+    try {
+      const processes = await memoryMonitor.getTopProcesses(limit || 5);
+      return processes;
+    } catch (error) {
+      console.error("Error getting top processes:", error);
+      throw error;
+    }
+  });
+
+  // Cookie handlers
+  ipcMain.handle("cookies:getBrowserProfiles", async () => {
+    try {
+      return await cookieMonitor.getBrowserProfiles();
+    } catch (error) {
+      console.error("Error getting browser profiles:", error);
+      throw error;
+    }
+  });
+
+  ipcMain.handle("cookies:setSource", async (_event, source: string) => {
+    try {
+      cookieMonitor.setSource(source);
+    } catch (error) {
+      console.error("Error setting cookie source:", error);
+      throw error;
+    }
+  });
+
+  ipcMain.handle("cookies:getAll", async () => {
+    try {
+      return await cookieMonitor.getAllCookies();
+    } catch (error) {
+      console.error("Error getting cookies:", error);
+      throw error;
+    }
+  });
+
+  ipcMain.handle(
+    "cookies:delete",
+    async (_event, name: string, domain: string, path: string) => {
+      try {
+        await cookieMonitor.deleteCookie(name, domain, path);
+      } catch (error) {
+        console.error("Error deleting cookie:", error);
+        throw error;
+      }
+    }
+  );
+
+  ipcMain.handle("cookies:clearAll", async () => {
+    try {
+      const count = await cookieMonitor.clearAllCookies();
+      return { count };
+    } catch (error) {
+      console.error("Error clearing cookies:", error);
       throw error;
     }
   });
