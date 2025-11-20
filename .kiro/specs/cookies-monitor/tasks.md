@@ -219,3 +219,38 @@
   - Test real-time monitoring updates
   - Test end-to-end export workflow
   - _Requirements: 1.1, 5.1, 5.2, 5.3, 6.1, 6.2, 6.3_
+
+## Additional Features Implemented
+
+- [x] 16. Add URL-based cookie filtering
+
+  - Implement filterCookiesByUrl utility function
+  - Add URL input field in CookieSearchBar with debouncing
+  - Validate domain, path, and secure flag matching
+  - Handle invalid URLs gracefully
+  - Update context to support selectedUrl state
+  - _Requirements: Advanced filtering, 3.5_
+
+- [x] 17. Implement browser cookie reading support
+
+  - Create BrowserDetectionService to find installed browsers (Chrome, Edge, Brave, Firefox)
+  - Create BrowserCookieReader for SQLite database reading
+  - Support multiple browser profiles (Default, Profile 1, 2, etc.)
+  - Handle locked databases by copying to temp files
+  - Implement Chromium timestamp conversion (Windows epoch to Unix)
+  - Support Firefox cookies.sqlite format
+  - Add IPC handlers for getBrowserProfiles and setSource
+  - Update CookieMonitorService with source switching
+  - Cross-platform support (macOS, Windows, Linux)
+  - Read-only access for browser cookies (no delete/clear)
+  - _Requirements: External browser integration_
+
+- [ ] 18. Add browser source selector UI
+
+  - Add browser/profile dropdown in toolbar or search bar
+  - Load available browsers on component mount
+  - Display browser icon and profile name
+  - Update cookies when source changes
+  - Show read-only indicator for browser sources
+  - Disable delete/clear buttons for browser sources
+  - _Requirements: Browser source UI, 1.1_
