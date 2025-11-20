@@ -157,11 +157,11 @@ export const ToolCard = forwardRef<HTMLDivElement, ToolCardProps>(
     return (
       <div
         ref={(node) => {
-          cardRef.current = node;
+          (cardRef as React.MutableRefObject<HTMLDivElement | null>).current = node;
           if (typeof ref === "function") {
             ref(node);
           } else if (ref) {
-            ref.current = node;
+            (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
           }
         }}
         className="tool-card"

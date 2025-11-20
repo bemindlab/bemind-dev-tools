@@ -78,10 +78,13 @@ describe("Property 7: Tool state preservation during navigation", () => {
 
           // Verify tool received the initial state
           expect(mountedProps).not.toBeNull();
-          expect(mountedProps?.initialState).toEqual(toolState);
+          expect(mountedProps!.initialState).toEqual(toolState);
 
           // Simulate navigation away (unmount)
           unmount();
+
+          // Reset mountedProps for second mount
+          mountedProps = null;
 
           // Second mount: render again with the captured state (simulating return)
           const { unmount: unmount2 } = render(
@@ -95,7 +98,8 @@ describe("Property 7: Tool state preservation during navigation", () => {
           );
 
           // Verify tool received the same state on return
-          expect(mountedProps?.initialState).toEqual(toolState);
+          expect(mountedProps).not.toBeNull();
+          expect(mountedProps!.initialState).toEqual(toolState);
 
           unmount2();
         }

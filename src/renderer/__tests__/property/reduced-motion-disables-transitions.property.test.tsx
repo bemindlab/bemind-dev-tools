@@ -46,15 +46,14 @@ describe("Property 30: Reduced motion disables transitions", () => {
   it("should disable transitions when reducedMotion prop is true", () => {
     fc.assert(
       fc.property(fc.boolean(), (enableTransitions) => {
-        let capturedState: {
+        type StateType = {
           transitionInProgress: boolean;
           transitionsEnabled: boolean;
-        } | null = null;
+        };
+        
+        let capturedState: StateType | null = null;
 
-        const handleStateChange = (state: {
-          transitionInProgress: boolean;
-          transitionsEnabled: boolean;
-        }) => {
+        const handleStateChange = (state: StateType) => {
           capturedState = state;
         };
 
@@ -69,7 +68,8 @@ describe("Property 30: Reduced motion disables transitions", () => {
 
         // When reducedMotion is true, transitions should be disabled
         // regardless of enableTransitions value
-        expect(capturedState?.transitionsEnabled).toBe(false);
+        expect(capturedState).not.toBeNull();
+        expect(capturedState!.transitionsEnabled).toBe(false);
       }),
       { numRuns: 100 }
     );
@@ -78,15 +78,14 @@ describe("Property 30: Reduced motion disables transitions", () => {
   it("should enable transitions when reducedMotion is false and enableTransitions is true", () => {
     fc.assert(
       fc.property(fc.constant(null), () => {
-        let capturedState: {
+        type StateType = {
           transitionInProgress: boolean;
           transitionsEnabled: boolean;
-        } | null = null;
+        };
+        
+        let capturedState: StateType | null = null;
 
-        const handleStateChange = (state: {
-          transitionInProgress: boolean;
-          transitionsEnabled: boolean;
-        }) => {
+        const handleStateChange = (state: StateType) => {
           capturedState = state;
         };
 
@@ -98,7 +97,8 @@ describe("Property 30: Reduced motion disables transitions", () => {
 
         // When reducedMotion is false and enableTransitions is true,
         // transitions should be enabled (assuming no system preference)
-        expect(capturedState?.transitionsEnabled).toBe(true);
+        expect(capturedState).not.toBeNull();
+        expect(capturedState!.transitionsEnabled).toBe(true);
       }),
       { numRuns: 100 }
     );
@@ -218,15 +218,14 @@ describe("Property 30: Reduced motion disables transitions", () => {
           value: mockMatchMedia,
         });
 
-        let capturedState: {
+        type StateType = {
           transitionInProgress: boolean;
           transitionsEnabled: boolean;
-        } | null = null;
+        };
+        
+        let capturedState: StateType | null = null;
 
-        const handleStateChange = (state: {
-          transitionInProgress: boolean;
-          transitionsEnabled: boolean;
-        }) => {
+        const handleStateChange = (state: StateType) => {
           capturedState = state;
         };
 
@@ -237,10 +236,12 @@ describe("Property 30: Reduced motion disables transitions", () => {
         );
 
         // When system prefers reduced motion, transitions should be disabled
+        expect(capturedState).not.toBeNull();
+        const state = capturedState!;
         if (systemPrefersReducedMotion) {
-          expect(capturedState?.transitionsEnabled).toBe(false);
+          expect(state.transitionsEnabled).toBe(false);
         } else {
-          expect(capturedState?.transitionsEnabled).toBe(true);
+          expect(state.transitionsEnabled).toBe(true);
         }
       }),
       { numRuns: 100 }

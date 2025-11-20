@@ -66,10 +66,3 @@ contextBridge.exposeInMainWorld("portsAPI", {
     return () => ipcRenderer.removeListener("ports:updated", listener);
   },
 } as PortsAPI);
-
-// Extend Window interface for TypeScript
-declare global {
-  interface Window {
-    portsAPI: PortsAPI;
-  }
-}

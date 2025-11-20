@@ -32,11 +32,11 @@ describe("Keyboard Navigation", () => {
     createMockTool("tool4", "Tool Four", ["monitoring"]),
   ];
 
-  let mockOnToolSelect: ReturnType<typeof vi.fn>;
-  let mockOnToolPin: ReturnType<typeof vi.fn>;
-  let mockOnToolUnpin: ReturnType<typeof vi.fn>;
-  let mockOnNavigateHome: ReturnType<typeof vi.fn>;
-  let mockOnStateChange: ReturnType<typeof vi.fn>;
+  let mockOnToolSelect: (toolId: string) => void;
+  let mockOnToolPin: (toolId: string) => void;
+  let mockOnToolUnpin: (toolId: string) => void;
+  let mockOnNavigateHome: () => void;
+  let mockOnStateChange: (state: any) => void;
 
   beforeEach(() => {
     mockOnToolSelect = vi.fn();
@@ -424,7 +424,7 @@ describe("Keyboard Navigation", () => {
 
         // Should open a networking tool (tool1 or tool3)
         expect(mockOnToolSelect).toHaveBeenCalled();
-        const calledToolId = mockOnToolSelect.mock.calls[0][0];
+        const calledToolId = (mockOnToolSelect as any).mock.calls[0][0];
         expect(["tool1", "tool3"]).toContain(calledToolId);
       });
     });

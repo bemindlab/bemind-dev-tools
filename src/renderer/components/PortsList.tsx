@@ -10,17 +10,17 @@ interface PortsRowProps {
   onSelectPort: (port: number) => void;
 }
 
-const PortsRow: React.FC<RowComponentProps<PortsRowProps>> = ({
+const PortsRow = ({
   index,
   style,
   ariaAttributes,
   ports,
   selectedPort,
   onSelectPort,
-}) => {
+}: RowComponentProps<PortsRowProps>): React.ReactElement => {
   const port = ports[index];
   if (!port) {
-    return null;
+    return <div style={style} {...ariaAttributes} />;
   }
 
   return (

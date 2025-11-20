@@ -12,11 +12,11 @@ export class ToolStatusManager {
   /**
    * Set the status for a tool
    */
-  setStatus(toolId: string, status: Omit<ToolStatus, "toolId">): void {
+  setStatus(toolId: string, status: Omit<ToolStatus, "toolId" | "lastUpdated">): void {
     const fullStatus: ToolStatus = {
       toolId,
-      ...status,
       lastUpdated: Date.now(),
+      ...status,
     };
 
     this.statuses.set(toolId, fullStatus);

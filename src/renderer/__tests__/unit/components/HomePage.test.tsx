@@ -28,9 +28,9 @@ describe("HomePage Component", () => {
     createMockTool("tool3", "Tool Three", ["networking", "monitoring"]),
   ];
 
-  let mockOnToolSelect: ReturnType<typeof vi.fn>;
-  let mockOnToolPin: ReturnType<typeof vi.fn>;
-  let mockOnToolUnpin: ReturnType<typeof vi.fn>;
+  let mockOnToolSelect: (toolId: string) => void;
+  let mockOnToolPin: (toolId: string) => void;
+  let mockOnToolUnpin: (toolId: string) => void;
 
   beforeEach(() => {
     mockOnToolSelect = vi.fn();
