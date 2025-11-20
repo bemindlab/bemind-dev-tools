@@ -1,7 +1,7 @@
 import type { PortsAPI } from "../../preload/preload";
 
 export const BROWSER_API_ERROR =
-  "System port access is only available inside the Electron shell. Run Local Ports Manager via `npm run dev` or `npm start` to use the full feature set.";
+  "System port access is only available inside the Electron shell. Run Bemind Dev Tools via `npm run dev` or `npm start` to use the full feature set.";
 
 const browserFallbackPortsAPI: PortsAPI = {
   scanPorts: async () => {

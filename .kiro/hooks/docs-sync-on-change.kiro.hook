@@ -1,0 +1,25 @@
+{
+  "enabled": true,
+  "name": "Documentation Sync",
+  "description": "Monitors TypeScript source files and configuration files for changes and prompts the agent to update relevant documentation in README.md or the docs folders",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      "src/**/*.ts",
+      "src/**/*.tsx",
+      "src/**/*.md",
+      "tsconfig.json",
+      "tsconfig.main.json",
+      "tsconfig.renderer.json",
+      "package.json",
+      "vite.config.ts",
+      "vitest.config.ts",
+      "electron-builder.json"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Source files have been modified. Please review the changes and update the relevant documentation. Check if the README.md needs updates, or if there are specific documentation files in src/renderer/components/, src/renderer/contexts/, src/renderer/hooks/, or src/main/services/platform/ that should be updated to reflect these changes. Ensure documentation accurately describes the current implementation."
+  }
+}

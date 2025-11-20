@@ -1,0 +1,12 @@
+.tool-view-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+.tool-content {
+  flex: 1;
+  overflow: auto;
+  padding: 16px;
+}

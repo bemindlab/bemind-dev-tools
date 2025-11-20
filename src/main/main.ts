@@ -6,6 +6,18 @@ import { FrameworkDetector } from "./services/FrameworkDetector";
 import { PortActionsService } from "./services/PortActionsService";
 import { PortInfo } from "./services/platform/types";
 
+// Enable hot reload in development
+if (process.env.NODE_ENV === "development") {
+  try {
+    require("electron-reload")(__dirname, {
+      electron: path.join(__dirname, "../../node_modules", ".bin", "electron"),
+      hardResetMethod: "exit",
+    });
+  } catch (error) {
+    console.log("electron-reload not available");
+  }
+}
+
 let mainWindow: BrowserWindow | null = null;
 
 // Service instances
@@ -18,6 +30,7 @@ function createWindow(): void {
   mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
+    title: "Bemind Dev Tools",
     webPreferences: {
       // Security: Enable context isolation
       contextIsolation: true,

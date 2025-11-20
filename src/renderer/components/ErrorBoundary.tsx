@@ -3,6 +3,8 @@ import "./ErrorBoundary.css";
 
 interface ErrorBoundaryProps {
   children: ReactNode;
+  onNavigateHome?: () => void;
+  fallbackMessage?: string;
 }
 
 interface ErrorBoundaryState {
@@ -50,6 +52,17 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
     window.location.reload();
   };
 
+  handleNavigateHome = (): void => {
+    if (this.props.onNavigateHome) {
+      this.setState({
+        hasError: false,
+        error: null,
+        errorInfo: null,
+      });
+      this.props.onNavigateHome();
+    }
+  };
+
   render(): ReactNode {
     if (this.state.hasError) {
       return (
@@ -58,8 +71,8 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
             <div className="error-boundary-icon">⚠️</div>
             <h1 className="error-boundary-title">Something went wrong</h1>
             <p className="error-boundary-message">
-              The application encountered an unexpected error. You can try to
-              recover or reload the application.
+              {this.props.fallbackMessage ||
+                "The application encountered an unexpected error. You can try to recover or reload the application."}
             </p>
 
             {this.state.error && (
@@ -78,6 +91,14 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
             )}
 
             <div className="error-boundary-actions">
+              {this.props.onNavigateHome && (
+                <button
+                  className="error-boundary-button primary"
+                  onClick={this.handleNavigateHome}
+                >
+                  Return to Home
+                </button>
+              )}
               <button
                 className="error-boundary-button primary"
                 onClick={this.handleReset}

@@ -24,7 +24,14 @@ const PortsRow: React.FC<RowComponentProps<PortsRowProps>> = ({
   }
 
   return (
-    <div style={style} {...ariaAttributes}>
+    <div
+      style={{
+        ...style,
+        padding: "6px 10px",
+        boxSizing: "border-box",
+      }}
+      {...ariaAttributes}
+    >
       <PortItem
         port={port}
         isSelected={selectedPort === port.port}
@@ -41,7 +48,7 @@ interface PortsListProps {
   isLoading?: boolean;
 }
 
-const ROW_HEIGHT = 72;
+const ROW_HEIGHT = 88;
 
 export const PortsList: React.FC<PortsListProps> = ({
   ports,

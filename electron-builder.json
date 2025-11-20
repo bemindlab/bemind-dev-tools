@@ -1,6 +1,6 @@
 {
-  "appId": "com.localportsmanager.app",
-  "productName": "Local Ports Manager",
+  "appId": "com.bemind.devtools",
+  "productName": "Bemind Dev Tools",
   "directories": {
     "output": "out"
   },

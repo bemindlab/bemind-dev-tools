@@ -1,4 +1,4 @@
-import React, { createContext, useContext, ReactNode } from "react";
+import React, { createContext, useContext, ReactNode, useMemo } from "react";
 import toast, { Toaster, Toast } from "react-hot-toast";
 import { PortInfo } from "../contexts/types";
 
@@ -119,11 +119,12 @@ const CustomNotification: React.FC<{
 export const NotificationServiceProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const service: INotificationService = {
-    show: (config: NotificationConfig) => {
-      const duration =
-        config.duration ??
-        (config.actions && config.actions.length > 0 ? Infinity : 2000);
+  const service = useMemo<INotificationService>(() => {
+    const api: INotificationService = {
+      show: (config: NotificationConfig) => {
+        const duration =
+          config.duration ??
+          (config.actions && config.actions.length > 0 ? Infinity : 2000);
 
       toast.custom(
         (t) => (
@@ -164,7 +165,7 @@ export const NotificationServiceProvider: React.FC<{ children: ReactNode }> = ({
         });
       }
 
-      service.show({
+      api.show({
         type: "warning",
         title: "Port Conflict Detected",
         message: `Port ${port} is already in use by ${processName}`,
@@ -180,7 +181,7 @@ export const NotificationServiceProvider: React.FC<{ children: ReactNode }> = ({
         process: "Process info copied to clipboard",
       };
 
-      service.show({
+      api.show({
         type: "success",
         title: "Copied",
         message: messages[type],
@@ -189,7 +190,7 @@ export const NotificationServiceProvider: React.FC<{ children: ReactNode }> = ({
     },
 
     showKillSuccess: (port: number, processName: string) => {
-      service.show({
+      api.show({
         type: "success",
         title: "Process Terminated",
         message: `Successfully killed ${processName} on port ${port}`,
@@ -198,7 +199,7 @@ export const NotificationServiceProvider: React.FC<{ children: ReactNode }> = ({
     },
 
     showKillError: (port: number, error: string) => {
-      service.show({
+      api.show({
         type: "error",
         title: "Failed to Kill Process",
         message: `Could not terminate process on port ${port}: ${error}`,
@@ -207,7 +208,7 @@ export const NotificationServiceProvider: React.FC<{ children: ReactNode }> = ({
     },
 
     showOpenBrowserSuccess: (port: number) => {
-      service.show({
+      api.show({
         type: "success",
         title: "Browser Opened",
         message: `Opened http://localhost:${port} in browser`,
@@ -216,7 +217,7 @@ export const NotificationServiceProvider: React.FC<{ children: ReactNode }> = ({
     },
 
     showOpenBrowserError: (port: number, error: string) => {
-      service.show({
+      api.show({
         type: "error",
         title: "Failed to Open Browser",
         message: `Could not open port ${port}: ${error}`,
@@ -228,7 +229,7 @@ export const NotificationServiceProvider: React.FC<{ children: ReactNode }> = ({
       const defaultInstructions =
         "You may need to run the application with elevated permissions or check your system security settings.";
 
-      service.show({
+      api.show({
         type: "error",
         title: "Permission Denied",
         message: `Cannot ${action}. ${instructions || defaultInstructions}`,
@@ -246,7 +247,7 @@ export const NotificationServiceProvider: React.FC<{ children: ReactNode }> = ({
         });
       }
 
-      service.show({
+      api.show({
         type: "error",
         title: "Platform Command Failed",
         message: `System command failed: ${error}. This may be due to platform-specific issues or missing system utilities.`,
@@ -254,7 +255,10 @@ export const NotificationServiceProvider: React.FC<{ children: ReactNode }> = ({
         actions: actions.length > 0 ? actions : undefined,
       });
     },
-  };
+    };
+
+    return api;
+  }, []);
 
   return (
     <NotificationContext.Provider value={service}>

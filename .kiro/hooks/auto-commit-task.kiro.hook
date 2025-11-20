@@ -1,0 +1,13 @@
+{
+  "enabled": true,
+  "name": "Auto Commit on Task Complete",
+  "description": "Automatically creates a git commit when an agent task is completed",
+  "version": "1",
+  "when": {
+    "type": "agentEnd"
+  },
+  "then": {
+    "type": "runCommand",
+    "command": "git add -A && git commit -m \"Auto-commit: Task completed\""
+  }
+}
