@@ -5,6 +5,7 @@ import {
   NavigationRouter,
   BreadcrumbNavigation,
   ErrorBoundary,
+  Footer,
 } from "./components";
 import { NotificationServiceProvider, useNotifications } from "./services";
 import {
@@ -16,6 +17,7 @@ import { userPreferencesService } from "./services/UserPreferences";
 import { toolStateManager } from "./services/ToolStateManager";
 import { registerAllTools } from "./tools/registerTools";
 import "./services/NotificationService.css";
+import packageInfo from "../../package.json";
 
 const DashboardAppContent: React.FC = () => {
   const { state, navigateToHome, navigateToTool, transitionsEnabled } =
@@ -251,6 +253,7 @@ const DashboardAppContent: React.FC = () => {
   return (
     <div className="app">
       <NavigationRouter homeView={homeView} toolView={toolView} />
+      <Footer version={packageInfo.version} />
     </div>
   );
 };

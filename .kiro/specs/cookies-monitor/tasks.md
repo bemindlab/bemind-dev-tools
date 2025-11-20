@@ -245,7 +245,7 @@
   - Read-only access for browser cookies (no delete/clear)
   - _Requirements: External browser integration_
 
-- [ ] 18. Add browser source selector UI
+- [x] 18. Add browser source selector UI
 
   - Add browser/profile dropdown in toolbar or search bar
   - Load available browsers on component mount

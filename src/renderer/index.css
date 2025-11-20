@@ -1,34 +1,59 @@
 :root {
   --color-bg: #f4f5f7;
   --color-surface: #ffffff;
-  --color-surface-alt: #f0f2f7;
+  --color-surface-alt: #f8f9fb;
   --color-text: #1f2430;
   --color-text-secondary: #5b667a;
+  --color-text-muted: #8891a5;
   --color-border: #d9dde5;
+  --color-border-light: #e8eaef;
   --color-accent: #2563eb;
   --color-accent-soft: rgba(37, 99, 235, 0.12);
+  --color-accent-hover: #1d4ed8;
   --color-success-bg: #e8f5e9;
   --color-success-text: #1b5e20;
   --color-error-bg: #fee2e2;
   --color-error-border: #fca5a5;
   --color-error-text: #7f1d1d;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  
+  /* Z-index layering system */
+  --z-base: 0;
+  --z-content: 1;
+  --z-sticky: 10;
+  --z-dropdown: 100;
+  --z-overlay: 500;
+  --z-modal: 1000;
+  --z-popover: 1100;
+  --z-tooltip: 1200;
+  --z-notification: 1300;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-bg: #11141c;
-    --color-surface: #1a1f2b;
-    --color-surface-alt: #242b3a;
-    --color-text: #f4f6fb;
-    --color-text-secondary: #bdc5d7;
-    --color-border: #2e3445;
-    --color-accent: #8cb7ff;
-    --color-accent-soft: rgba(140, 183, 255, 0.15);
-    --color-success-bg: rgba(34, 197, 94, 0.2);
-    --color-success-text: #86efac;
-    --color-error-bg: rgba(239, 68, 68, 0.15);
-    --color-error-border: #f87171;
-    --color-error-text: #fecaca;
+    --color-bg: #0d1117;
+    --color-surface: #161b22;
+    --color-surface-alt: #1c2128;
+    --color-text: #e6edf3;
+    --color-text-secondary: #8b949e;
+    --color-text-muted: #6e7681;
+    --color-border: #30363d;
+    --color-border-light: #21262d;
+    --color-accent: #58a6ff;
+    --color-accent-soft: rgba(88, 166, 255, 0.15);
+    --color-accent-hover: #79c0ff;
+    --color-success-bg: rgba(34, 197, 94, 0.15);
+    --color-success-text: #3fb950;
+    --color-error-bg: rgba(248, 81, 73, 0.15);
+    --color-error-border: #da3633;
+    --color-error-text: #f85149;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5);
+    
+    /* Z-index values remain the same in dark mode */
   }
 }
 
@@ -77,6 +102,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--color-bg);
   color: var(--color-text);
+  font-size: 15px;
+  line-height: 1.6;
+  letter-spacing: 0.01em;
 }
 
 .app {
@@ -84,14 +112,16 @@ body {
   display: flex;
   flex-direction: column;
   background: var(--color-bg);
+  overflow: hidden;
 }
 
 .ports-manager-view {
   height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: var(--color-surface);
+  background-color: var(--color-bg);
   color: var(--color-text);
+  overflow: hidden;
 }
 
 .ports-manager-header {
@@ -101,13 +131,16 @@ body {
   padding: 20px 24px;
   background-color: var(--color-surface);
   border-bottom: 1px solid var(--color-border);
+  flex-shrink: 0;
+  gap: 16px;
 }
 
 .ports-manager-header h1 {
   color: var(--color-text);
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 600;
   margin: 0;
+  letter-spacing: -0.02em;
 }
 
 .status-info {
@@ -115,18 +148,20 @@ body {
   align-items: center;
   gap: 16px;
   color: var(--color-text-secondary);
+  flex-wrap: wrap;
 }
 
 .status-badge {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
+  gap: 8px;
+  padding: 8px 14px;
   border-radius: 12px;
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 600;
   background: var(--color-accent-soft);
   color: var(--color-accent);
+  letter-spacing: 0.02em;
 }
 
 .status-badge.monitoring {
@@ -137,35 +172,66 @@ body {
 .ports-count {
   color: var(--color-text-secondary);
   font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
 }
 
 .ports-manager-content {
   display: flex;
   flex: 1;
   overflow: hidden;
-  background: var(--color-surface);
+  background: var(--color-bg);
+  gap: 1px;
 }
 
 .error-message {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 12px 16px;
+  gap: 10px;
+  padding: 14px 18px;
   margin: 16px;
   background-color: var(--color-error-bg);
   border: 1px solid var(--color-error-border);
-  border-radius: 6px;
+  border-radius: 8px;
   color: var(--color-error-text);
   font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  line-height: 1.5;
 }
 
 .error-icon {
-  font-size: 18px;
+  font-size: 20px;
+  flex-shrink: 0;
 }
 
 .tool-view-wrapper {
   height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: var(--color-surface);
+  background-color: var(--color-bg);
+  overflow: hidden;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .ports-manager-header {
+    padding: 16px 20px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .ports-manager-header h1 {
+    font-size: 20px;
+  }
+
+  .status-info {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .ports-count {
+    font-size: 13px;
+  }
 }

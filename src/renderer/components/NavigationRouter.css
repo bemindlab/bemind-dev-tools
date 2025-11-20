@@ -19,14 +19,14 @@
   opacity: 1;
   transform: translateX(0);
   pointer-events: auto;
-  z-index: 1;
+  z-index: var(--z-content);
 }
 
 .view-container.inactive {
   opacity: 0;
   transform: translateX(-20px);
   pointer-events: none;
-  z-index: 0;
+  z-index: var(--z-base);
 }
 
 /* Disable transitions when reduced motion is preferred */

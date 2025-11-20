@@ -55,6 +55,8 @@ export const CookiesToolbar: React.FC = () => {
       await setSelectedSource(newSource);
     } catch (err) {
       console.error("Failed to change source:", err);
+      const errorMessage = err instanceof Error ? err.message : "Failed to change cookie source";
+      alert(`Error: ${errorMessage}`);
     }
   };
 

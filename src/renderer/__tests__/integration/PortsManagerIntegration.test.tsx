@@ -73,20 +73,24 @@ describe("Ports Manager Integration", () => {
       registerAllTools();
 
       const results = toolRegistry.searchTools("monitor");
-      expect(results).toHaveLength(1);
-      expect(results[0].id).toBe("ports-manager");
+      expect(results.length).toBeGreaterThanOrEqual(1);
+      const portsManager = results.find(tool => tool.id === "ports-manager");
+      expect(portsManager).toBeDefined();
+      expect(portsManager?.id).toBe("ports-manager");
     });
 
     it("should be filterable by category", () => {
       registerAllTools();
 
       const networkingTools = toolRegistry.getToolsByCategory("networking");
-      expect(networkingTools).toHaveLength(1);
-      expect(networkingTools[0].id).toBe("ports-manager");
+      expect(networkingTools.length).toBeGreaterThanOrEqual(1);
+      const portsManagerInNetworking = networkingTools.find(tool => tool.id === "ports-manager");
+      expect(portsManagerInNetworking).toBeDefined();
 
       const monitoringTools = toolRegistry.getToolsByCategory("monitoring");
-      expect(monitoringTools).toHaveLength(1);
-      expect(monitoringTools[0].id).toBe("ports-manager");
+      expect(monitoringTools.length).toBeGreaterThanOrEqual(1);
+      const portsManagerInMonitoring = monitoringTools.find(tool => tool.id === "ports-manager");
+      expect(portsManagerInMonitoring).toBeDefined();
     });
   });
 

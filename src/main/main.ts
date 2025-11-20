@@ -51,6 +51,20 @@ function createWindow(): void {
     },
   });
 
+  // Set Content Security Policy
+  mainWindow.webContents.session.webRequest.onHeadersReceived((details, callback) => {
+    const csp = process.env.NODE_ENV === "development"
+      ? "default-src 'self' http://localhost:5173; script-src 'self' 'unsafe-inline' http://localhost:5173; style-src 'self' http://localhost:5173 'unsafe-inline'; connect-src 'self' ws://localhost:5173 http://localhost:5173; img-src 'self' data:;"
+      : "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;";
+    
+    callback({
+      responseHeaders: {
+        ...details.responseHeaders,
+        "Content-Security-Policy": [csp]
+      }
+    });
+  });
+
   // Load the renderer
   if (process.env.NODE_ENV === "development") {
     mainWindow.loadURL("http://localhost:5173");

@@ -18,3 +18,4 @@ export { BreadcrumbNavigation } from "./BreadcrumbNavigation";
 export { MemoryGauge } from "./MemoryGauge";
 export { ProcessList } from "./ProcessList";
 export { RefreshControls } from "./RefreshControls";
+export { Footer } from "./Footer";

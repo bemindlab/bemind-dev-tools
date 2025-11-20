@@ -111,7 +111,7 @@ export class ProcessMonitor extends EventEmitter {
    */
   private async scan(): Promise<void> {
     try {
-      // Scan development ports
+      // Scan all user ports (1024-65535)
       const scannedPorts = await this.portScanner.scanDevPorts();
 
       // Create a map of new ports for efficient lookup
@@ -164,8 +164,9 @@ export class ProcessMonitor extends EventEmitter {
    * @returns Unique key string
    */
   private getPortKey(port: PortInfo): string {
-    // Use port number, protocol, and PID as unique identifier
-    return `${port.port}-${port.protocol}-${port.processId}`;
+    // Use port number and PID as unique identifier
+    // Same port and same PID should be treated as one entry
+    return `${port.port}-${port.processId}`;
   }
 
   /**

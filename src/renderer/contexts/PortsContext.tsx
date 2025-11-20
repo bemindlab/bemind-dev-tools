@@ -62,11 +62,11 @@ function portsReducer(state: PortsState, action: PortsAction): PortsState {
       return { ...state, ports: action.payload, error: null };
 
     case "ADD_PORT": {
-      // Check if port already exists using unique key (port + protocol + PID)
+      // Check if port already exists using unique key (port + PID)
+      // Same port and same PID should show only one entry
       const exists = state.ports.some(
         (p) =>
           p.port === action.payload.port &&
-          p.protocol === action.payload.protocol &&
           p.processId === action.payload.processId
       );
       if (exists) {
@@ -82,7 +82,6 @@ function portsReducer(state: PortsState, action: PortsAction): PortsState {
           (p) =>
             !(
               p.port === action.payload.port &&
-              p.protocol === action.payload.protocol &&
               p.processId === action.payload.processId
             )
         ),
@@ -96,7 +95,6 @@ function portsReducer(state: PortsState, action: PortsAction): PortsState {
       const index = state.ports.findIndex(
         (p) =>
           p.port === action.payload.port &&
-          p.protocol === action.payload.protocol &&
           p.processId === action.payload.processId
       );
       if (index === -1) {
@@ -242,10 +240,10 @@ export const PortsProvider: React.FC<{ children: React.ReactNode }> = ({
   );
 
   /**
-   * Refresh ports (scan dev ports by default)
+   * Refresh ports (scan all user ports 1024-65535)
    */
   const refreshPorts = useCallback(async () => {
-    await scanPorts({ start: 3000, end: 9999 });
+    await scanPorts({ start: 1024, end: 65535 });
   }, [scanPorts]);
 
   /**

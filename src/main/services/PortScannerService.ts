@@ -82,11 +82,11 @@ export class PortScannerService {
   }
 
   /**
-   * Scan common development ports (3000-9999)
+   * Scan common development and service ports (1024-65535)
    * @returns Array of active port information
    */
   async scanDevPorts(): Promise<PortInfo[]> {
-    return this.scanPorts(3000, 9999);
+    return this.scanPorts(1024, 65535);
   }
 
   /**
