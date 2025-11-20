@@ -1,0 +1,112 @@
+.cookies-list-container {
+  flex: 1;
+  overflow-y: auto;
+  background: var(--bg-primary, #1e1e1e);
+}
+
+.cookies-list-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--text-secondary, #888);
+  font-size: 16px;
+}
+
+.cookies-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.cookies-table thead {
+  position: sticky;
+  top: 0;
+  background: var(--bg-secondary, #2a2a2a);
+  z-index: 10;
+}
+
+.cookies-table th {
+  padding: 12px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--text-primary, #e0e0e0);
+  border-bottom: 2px solid var(--border-color, #444);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.cookies-table tbody tr {
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.cookies-table tbody tr:hover {
+  background: var(--bg-hover, #2a2a2a);
+}
+
+.cookies-table tbody tr.selected {
+  background: var(--accent-color-dim, #004080);
+}
+
+.cookies-table tbody tr.warning {
+  border-left: 3px solid var(--warning-color, #ff9800);
+}
+
+.cookies-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border-color, #333);
+  color: var(--text-primary, #e0e0e0);
+  font-size: 13px;
+}
+
+.cookie-name {
+  font-weight: 500;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cookie-domain {
+  color: var(--text-secondary, #aaa);
+  max-width: 250px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cookie-expiration {
+  font-family: monospace;
+  font-size: 12px;
+}
+
+.cookie-size {
+  font-family: monospace;
+  font-size: 12px;
+}
+
+.warning-icon {
+  margin-left: 6px;
+  font-size: 14px;
+}
+
+.cookie-actions {
+  width: 80px;
+  text-align: center;
+}
+
+.delete-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 4px 8px;
+  opacity: 0.6;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.delete-btn:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}

@@ -17,7 +17,7 @@ export interface PortsAPI {
   ) => Promise<{ success: boolean; message?: string }>;
 
   // Monitoring controls
-  startMonitoring: (interval: number) => Promise<void>;
+  startMonitoring: (interval: number) => Promise<any[]>;
   stopMonitoring: () => Promise<void>;
 
   // Event listeners

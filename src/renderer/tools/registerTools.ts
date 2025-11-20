@@ -3,6 +3,7 @@ import { toolRegistry } from "../services/ToolRegistry";
 import type { ToolComponentProps } from "../types/dashboard";
 import { PortsProvider, usePortsManager } from "../contexts";
 import { PortsToolbar, PortsList, PortDetailsPanel } from "../components";
+import { CookiesMonitorTool } from "./CookiesMonitorTool";
 
 // Internal Ports Manager View component
 const PortsManagerView: React.FC<{
@@ -53,7 +54,6 @@ const PortsManagerView: React.FC<{
     if (shouldMonitor) {
       startMonitoring(5000);
     }
-    refreshPorts();
 
     return () => {
       stopMonitoring();
@@ -201,6 +201,9 @@ export function registerAllTools(): void {
   if (toolRegistry.getTool("ports-manager")) {
     toolRegistry.unregisterTool("ports-manager");
   }
+  if (toolRegistry.getTool("cookies-monitor")) {
+    toolRegistry.unregisterTool("cookies-monitor");
+  }
 
   // Register Ports Manager
   toolRegistry.registerTool({
@@ -216,6 +219,25 @@ export function registerAllTools(): void {
       "Open ports in browser",
       "Framework detection",
       "Search and filter ports",
+    ],
+    version: "1.0.0",
+  });
+
+  // Register Cookies Monitor
+  toolRegistry.registerTool({
+    id: "cookies-monitor",
+    name: "Cookies Monitor",
+    description: "View, manage, and export browser cookies",
+    icon: "🍪",
+    category: ["development", "debugging", "security"],
+    component: CookiesMonitorTool,
+    features: [
+      "Real-time cookie monitoring",
+      "Search and filter cookies",
+      "View detailed cookie information",
+      "Delete individual or all cookies",
+      "Export cookies to JSON",
+      "Security flag indicators",
     ],
     version: "1.0.0",
   });

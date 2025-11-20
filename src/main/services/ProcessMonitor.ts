@@ -40,19 +40,17 @@ export class ProcessMonitor extends EventEmitter {
    * Start monitoring with specified interval
    * @param intervalMs Monitoring interval in milliseconds (default: 5000)
    */
-  start(intervalMs: number = 5000): void {
+  async start(intervalMs: number = 5000): Promise<PortInfo[]> {
     if (this.isMonitoring) {
       console.warn("ProcessMonitor is already running");
-      return;
+      return this.getCurrentPorts();
     }
 
     this.intervalMs = intervalMs;
     this.isMonitoring = true;
 
     // Perform initial scan
-    this.scan().catch((error) => {
-      console.error("Initial port scan failed:", error);
-    });
+    await this.scan();
 
     // Set up periodic scanning
     this.monitoringInterval = setInterval(() => {
@@ -62,6 +60,7 @@ export class ProcessMonitor extends EventEmitter {
     }, this.intervalMs);
 
     console.log(`ProcessMonitor started with interval: ${intervalMs}ms`);
+    return this.getCurrentPorts();
   }
 
   /**

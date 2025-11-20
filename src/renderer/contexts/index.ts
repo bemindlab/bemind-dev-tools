@@ -4,6 +4,7 @@
 
 export { PortsProvider, usePortsManager } from "./PortsContext";
 export { NavigationProvider, useNavigation } from "./NavigationContext";
+export { CookiesProvider, useCookies } from "./CookiesContext";
 export type {
   PortInfo,
   FrameworkInfo,

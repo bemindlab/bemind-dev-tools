@@ -8,7 +8,7 @@ import { NotificationServiceProvider } from "../../services";
 vi.mock("../../utils/portsApi", () => ({
   getPortsAPI: () => ({
     scanPorts: vi.fn().mockResolvedValue([]),
-    startMonitoring: vi.fn().mockResolvedValue(undefined),
+    startMonitoring: vi.fn().mockResolvedValue([]),
     stopMonitoring: vi.fn().mockResolvedValue(undefined),
     killProcess: vi.fn().mockResolvedValue({ success: true }),
     openInBrowser: vi.fn().mockResolvedValue({ success: true }),

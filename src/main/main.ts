@@ -214,27 +214,33 @@ function setupIPCHandlers(): void {
   );
 
   // Start monitoring handler
-  ipcMain.handle("ports:start-monitoring", async (_event, interval: number) => {
-    try {
-      // Validate interval
-      if (!Number.isInteger(interval) || interval < 1000) {
-        throw new Error("Interval must be an integer >= 1000ms");
+  ipcMain.handle(
+    "ports:start-monitoring",
+    async (_event, interval: number) => {
+      try {
+        // Validate interval
+        if (!Number.isInteger(interval) || interval < 1000) {
+          throw new Error("Interval must be an integer >= 1000ms");
+        }
+
+        // Stop existing monitoring if active
+        if (processMonitor.isActive()) {
+          processMonitor.stop();
+        }
+
+        // Start monitoring and get initial ports
+        const ports = await processMonitor.start(interval);
+
+        console.log(`Port monitoring started with interval: ${interval}ms`);
+
+        // Enrich with framework detection before returning
+        return ports.map(enrichPortWithFramework);
+      } catch (error) {
+        console.error("Error starting monitoring:", error);
+        throw error;
       }
-
-      // Stop existing monitoring if active
-      if (processMonitor.isActive()) {
-        processMonitor.stop();
-      }
-
-      // Start monitoring
-      processMonitor.start(interval);
-
-      console.log(`Port monitoring started with interval: ${interval}ms`);
-    } catch (error) {
-      console.error("Error starting monitoring:", error);
-      throw error;
     }
-  });
+  );
 
   // Stop monitoring handler
   ipcMain.handle("ports:stop-monitoring", async () => {

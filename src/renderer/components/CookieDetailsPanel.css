@@ -1,0 +1,129 @@
+.cookie-details-panel {
+  width: 350px;
+  background: var(--bg-secondary, #2a2a2a);
+  border-left: 1px solid var(--border-color, #444);
+  overflow-y: auto;
+  padding: 16px;
+}
+
+.no-selection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  color: var(--text-secondary, #888);
+}
+
+.no-selection p {
+  margin: 8px 0;
+}
+
+.no-selection .hint {
+  font-size: 13px;
+  opacity: 0.7;
+}
+
+.details-title {
+  margin: 0 0 20px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary, #e0e0e0);
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--border-color, #444);
+}
+
+.detail-section {
+  margin-bottom: 24px;
+}
+
+.detail-row {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
+
+.detail-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary, #aaa);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+
+.detail-value {
+  font-size: 14px;
+  color: var(--text-primary, #e0e0e0);
+  word-break: break-word;
+  line-height: 1.5;
+}
+
+.detail-value.scrollable {
+  max-height: 150px;
+  overflow-y: auto;
+  padding: 8px;
+  background: var(--bg-primary, #1e1e1e);
+  border: 1px solid var(--border-color, #333);
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 12px;
+}
+
+.security-section {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-color, #444);
+}
+
+.section-title {
+  margin: 0 0 16px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary, #e0e0e0);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.security-flags {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.security-flag {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background: var(--bg-primary, #1e1e1e);
+  border: 1px solid var(--border-color, #333);
+  border-radius: 6px;
+  transition: border-color 0.2s;
+}
+
+.security-flag.enabled {
+  border-color: var(--success-color, #4caf50);
+}
+
+.security-flag.disabled {
+  border-color: var(--warning-color, #ff9800);
+}
+
+.flag-icon {
+  font-size: 20px;
+}
+
+.flag-label {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary, #e0e0e0);
+}
+
+.flag-status {
+  font-size: 12px;
+  color: var(--text-secondary, #aaa);
+  text-transform: capitalize;
+}

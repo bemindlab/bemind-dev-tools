@@ -247,7 +247,8 @@ export const PortsProvider: React.FC<{ children: React.ReactNode }> = ({
     async (interval: number = 5000) => {
       const portsAPI = getPortsAPI();
       try {
-        await portsAPI.startMonitoring(interval);
+        const initialPorts = await portsAPI.startMonitoring(interval);
+        dispatch({ type: "SET_PORTS", payload: initialPorts });
         dispatch({ type: "SET_MONITORING", payload: true });
       } catch (error) {
         const errorMessage =
