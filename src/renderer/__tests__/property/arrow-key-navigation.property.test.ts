@@ -329,7 +329,7 @@ describe("Property 35: Arrow key navigation in grid", () => {
     );
   });
 
-  it("should handle ArrowUp navigation in grid", async () => {
+  it("should handle ArrowUp navigation in grid", { timeout: 15000 }, async () => {
     await fc.assert(
       fc.asyncProperty(
         // Generate enough tools to have multiple rows

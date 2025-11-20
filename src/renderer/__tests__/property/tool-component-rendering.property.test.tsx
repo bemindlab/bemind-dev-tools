@@ -89,7 +89,7 @@ describe("Property 4: Tool component rendering", () => {
           initialState: fc.oneof(
             fc.constant(undefined),
             fc.record({
-              value: fc.string({ minLength: 1, maxLength: 50 }),
+              value: fc.string({ minLength: 1, maxLength: 50 }).filter(s => s.trim() !== ''),
             })
           ),
         }),

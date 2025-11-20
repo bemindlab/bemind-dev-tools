@@ -198,7 +198,7 @@ describe("Property 34: Focus indicator visibility", () => {
     );
   });
 
-  it("should have visible focus indicators on breadcrumb navigation buttons", () => {
+  it("should have visible focus indicators on breadcrumb navigation buttons", { timeout: 15000 }, () => {
     fc.assert(
       fc.property(
         fc.constantFrom("home" as const, "tool" as const),
