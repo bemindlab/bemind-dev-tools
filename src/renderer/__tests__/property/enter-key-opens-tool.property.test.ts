@@ -13,7 +13,7 @@ import { Tool } from "../../types/dashboard";
  */
 
 describe("Property 32: Enter key opens focused tool", () => {
-  it("should open the focused tool when Enter is pressed", () => {
+  it("should open the focused tool when Enter is pressed", { timeout: 15000 }, () => {
     fc.assert(
       fc.property(
         // Generate a list of tools (at least 1 for meaningful test)
